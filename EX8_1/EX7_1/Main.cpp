@@ -1,4 +1,5 @@
 /**
+*	Nathaniel Graham
 *	Recursive Binary Search
 *	Reading: section 7.3
 */
@@ -14,20 +15,28 @@ using namespace std;
 */
 template <typename T>
 int binary_search(const vector<T> &items, int first, int last, T target) {
-	// ATTEMPTED: Implement recursive binary search
+	// SOLVED: Implement recursive binary search
 
-	if (items.at((last - first) / 2) == target)
+	bool found = false;
+
+	if (items.at((last - first) / 2) == target && !found)
 	{
+		found = true;
 		return target;
 	}
 
-	if (items.at((last - first) / 2) > target)
+	if (first == last - 1 && !found)
 	{
-		return binary_search(items, first, ((last - first) / 2), target);
+		return -1;
 	}
-	else
+
+	if (items.at((last + first) / 2) > target && !found)
 	{
-		return binary_search(items, ((last - first) / 2), last, target);
+		return binary_search(items, first, ((last + first) / 2), target);
+	}
+	if (items.at((last+first)/2) < target && !found)
+	{
+		return binary_search(items, ((last + first) / 2), last, target);
 	}
 
 	return -1;
@@ -48,8 +57,8 @@ int main()
 	vector<int> haystack;
 
 	srand(1);
-	for (int i = 0; i < 10; ++i) // initialize the vector with random values
-		haystack.push_back(rand()%10);
+	for (int i = 0; i < 100000; ++i) // initialize the vector with random values
+		haystack.push_back(rand());
 
 	sort(haystack.begin(), haystack.end()); // sort the contents of the vector
 
